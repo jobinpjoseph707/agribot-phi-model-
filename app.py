@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
@@ -8,13 +8,27 @@ from src.bot_interface import BotInterface
 app = Flask(__name__)
 bot = BotInterface()
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def home():
-    if request.method == 'POST':
-        query = request.form['query']
-        response = bot.process_query(query)
-        return render_template('index.html', query=query, response=response)
+    # Render the initial template with no chat history.
     return render_template('index.html', query='', response='')
+
+@app.route('/api/query', methods=['POST'])
+def api_query():
+    query = request.form['query']
+    result = bot.process_query(query)
+    
+    # Check if the query contains any of the defined Indian states.
+    if any(state.lower() in query.lower() for state in bot.indian_states):
+        # For location-based queries, assume the response starts with "Weather:".
+        lines = result.split("\n")
+        weather = ""
+        if lines and lines[0].startswith("Weather:"):
+            weather = lines[0].replace("Weather:", "").strip()
+        return jsonify(response=result, weather=weather)
+    else:
+        # For general queries, return only the bot's response.
+        return jsonify(response=result)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

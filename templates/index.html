@@ -1,20 +1,119 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Agrobot</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .response { white-space: pre-wrap; }
-    </style>
+  <title>Agribot Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+    .chat-container {
+      flex: 1;
+      padding: 20px;
+    }
+    .weather-container {
+      width: 30%;
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-left: 1px solid #ddd;
+    }
+    .chat-bubble {
+      margin-bottom: 15px;
+    }
+    .greeting {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+    .response {
+      white-space: pre-wrap;
+    }
+    #loadingIndicator {
+      display: none;
+      margin-top: 20px;
+      font-style: italic;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
-    <h1>Agrobot - Agricultural Assistant</h1>
-    <form method="POST">
-        <label for="query">Ask a question:</label><br>
-        <textarea id="query" name="query" rows="4" cols="50">{{ query }}</textarea><br>
-        <input type="submit" value="Submit">
+  <div class="chat-container">
+    <!-- Initial Greeting -->
+    <div class="greeting">Welcome to Agribot! How can we help you today?</div>
+    
+    <!-- Chat Input Form -->
+    <form id="chatForm">
+      <input type="text" id="queryInput" placeholder="Type your message here..." style="width: 80%;" required>
+      <button type="submit">Send</button>
     </form>
-    <h2>Response:</h2>
-    <div class="response">{{ response }}</div>
+    
+    <!-- Loading Indicator -->
+    <div id="loadingIndicator">Agent is thinking...</div>
+    
+    <!-- Chat History Display -->
+    <div id="chatHistory"></div>
+  </div>
+  
+  <!-- Weather Information Panel -->
+  <div class="weather-container">
+    <h3>Weather Info</h3>
+    <div id="weatherInfo">No weather data available.</div>
+  </div>
+  
+  <script>
+    // List of Indian states for simple location detection
+    const indianStates = [
+      "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+      "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
+      "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
+      "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
+      "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Delhi"
+    ];
+    
+    document.getElementById('chatForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      // Get user query and clear the input
+      let query = document.getElementById('queryInput').value;
+      document.getElementById('queryInput').value = '';
+      
+      // Append user's message to chat history
+      const chatHistory = document.getElementById('chatHistory');
+      chatHistory.innerHTML += `<div class="chat-bubble"><strong>You:</strong> ${query}</div>`;
+      
+      // Determine if the query contains a location
+      const locationFound = indianStates.some(state => query.toLowerCase().includes(state.toLowerCase()));
+      
+      // Set loading text based on query type
+      const loadingIndicator = document.getElementById('loadingIndicator');
+      loadingIndicator.textContent = locationFound ? "Agent is thinking with RAG..." : "Agent is thinking...";
+      loadingIndicator.style.display = 'block';
+      
+      try {
+        // Fire the API call to /api/query
+        const response = await fetch('/api/query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ query: query })
+        });
+        const data = await response.json();
+        loadingIndicator.style.display = 'none';
+        
+        // Append bot's response to chat history
+        chatHistory.innerHTML += `<div class="chat-bubble"><strong>Agribot:</strong> ${data.response}</div>`;
+        
+        // Update weather panel if location was detected and weather data is returned
+        if(locationFound && data.weather) {
+          document.getElementById('weatherInfo').textContent = "Weather: " + data.weather;
+        } else {
+          document.getElementById('weatherInfo').textContent = "No weather data available.";
+        }
+      } catch (error) {
+        loadingIndicator.style.display = 'none';
+        chatHistory.innerHTML += `<div class="chat-bubble"><strong>Agribot:</strong> Error fetching response.</div>`;
+      }
+    });
+  </script>
 </body>
 </html>
