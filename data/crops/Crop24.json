@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  40,
+                                                 "max":  69
+                                             },
+                                "temperature":  {
+                                                    "min":  11,
+                                                    "max":  34
+                                                }
+                            },
+    "fertilizers":  [
+                        "Potassium Chloride",
+                        "Urea",
+                        "NPK 20-20-20"
+                    ],
+    "name":  "Crop24"
+}

@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  48,
+                                                 "max":  69
+                                             },
+                                "temperature":  {
+                                                    "min":  7,
+                                                    "max":  25
+                                                }
+                            },
+    "name":  "Pest54",
+    "controls":  [
+                     "Soap Spray",
+                     "Insecticide"
+                 ]
+}

@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  52,
+                                                 "max":  82
+                                             },
+                                "temperature":  {
+                                                    "min":  6,
+                                                    "max":  30
+                                                }
+                            },
+    "name":  "Pest126",
+    "controls":  [
+                     "Insecticide",
+                     "Neem Oil",
+                     "Pyrethrum"
+                 ]
+}

@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  55,
+                                                 "max":  78
+                                             },
+                                "temperature":  {
+                                                    "min":  7,
+                                                    "max":  23
+                                                }
+                            },
+    "name":  "Pest95",
+    "controls":  [
+                     "Soap Spray",
+                     "Pheromone Traps"
+                 ]
+}

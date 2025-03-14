@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  46,
+                                                 "max":  75
+                                             },
+                                "temperature":  {
+                                                    "min":  9,
+                                                    "max":  33
+                                                }
+                            },
+    "name":  "Pest50",
+    "controls":  [
+                     "Neem Oil",
+                     "Insecticide"
+                 ]
+}

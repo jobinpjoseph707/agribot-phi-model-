@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  53,
+                                                 "max":  83
+                                             },
+                                "temperature":  {
+                                                    "min":  5,
+                                                    "max":  15
+                                                }
+                            },
+    "amendments":  [
+                       "Compost",
+                       "Lime",
+                       "Manure"
+                   ],
+    "name":  "Soil169"
+}

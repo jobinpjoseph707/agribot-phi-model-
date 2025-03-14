@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  57,
+                                                 "max":  83
+                                             },
+                                "temperature":  {
+                                                    "min":  -5,
+                                                    "max":  15
+                                                }
+                            },
+    "amendments":  [
+                       "Lime",
+                       "Sulfur"
+                   ],
+    "name":  "Soil53"
+}

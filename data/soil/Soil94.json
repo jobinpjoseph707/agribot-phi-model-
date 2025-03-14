@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  34,
+                                                 "max":  54
+                                             },
+                                "temperature":  {
+                                                    "min":  4,
+                                                    "max":  28
+                                                }
+                            },
+    "amendments":  [
+                       "Gypsum",
+                       "Lime",
+                       "Manure"
+                   ],
+    "name":  "Soil94"
+}

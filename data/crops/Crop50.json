@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  58,
+                                                 "max":  86
+                                             },
+                                "temperature":  {
+                                                    "min":  12,
+                                                    "max":  22
+                                                }
+                            },
+    "fertilizers":  [
+                        "Diammonium Phosphate",
+                        "Urea",
+                        "Ammonium Sulfate"
+                    ],
+    "name":  "Crop50"
+}

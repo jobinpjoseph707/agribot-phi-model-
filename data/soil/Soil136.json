@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  56,
+                                                 "max":  87
+                                             },
+                                "temperature":  {
+                                                    "min":  5,
+                                                    "max":  22
+                                                }
+                            },
+    "amendments":  [
+                       "Lime",
+                       "Gypsum"
+                   ],
+    "name":  "Soil136"
+}

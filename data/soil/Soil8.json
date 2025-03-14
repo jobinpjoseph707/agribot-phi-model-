@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  40,
+                                                 "max":  69
+                                             },
+                                "temperature":  {
+                                                    "min":  4,
+                                                    "max":  24
+                                                }
+                            },
+    "amendments":  [
+                       "Sulfur",
+                       "Lime",
+                       "Compost"
+                   ],
+    "name":  "Soil8"
+}

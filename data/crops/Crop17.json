@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  39,
+                                                 "max":  68
+                                             },
+                                "temperature":  {
+                                                    "min":  4,
+                                                    "max":  14
+                                                }
+                            },
+    "fertilizers":  [
+                        "Urea",
+                        "Diammonium Phosphate"
+                    ],
+    "name":  "Crop17"
+}

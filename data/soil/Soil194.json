@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  57,
+                                                 "max":  80
+                                             },
+                                "temperature":  {
+                                                    "min":  1,
+                                                    "max":  15
+                                                }
+                            },
+    "amendments":  [
+                       "Lime",
+                       "Sulfur"
+                   ],
+    "name":  "Soil194"
+}

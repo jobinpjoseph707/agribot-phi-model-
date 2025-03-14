@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  48,
+                                                 "max":  78
+                                             },
+                                "temperature":  {
+                                                    "min":  8,
+                                                    "max":  28
+                                                }
+                            },
+    "amendments":  [
+                       "Compost",
+                       "Manure",
+                       "Gypsum"
+                   ],
+    "name":  "Soil28"
+}

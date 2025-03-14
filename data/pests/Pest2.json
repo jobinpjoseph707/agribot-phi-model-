@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  47,
+                                                 "max":  82
+                                             },
+                                "temperature":  {
+                                                    "min":  7,
+                                                    "max":  26
+                                                }
+                            },
+    "name":  "Pest2",
+    "controls":  [
+                     "Neem Oil",
+                     "Pheromone Traps",
+                     "Soap Spray"
+                 ]
+}

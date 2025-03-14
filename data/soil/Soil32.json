@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  49,
+                                                 "max":  79
+                                             },
+                                "temperature":  {
+                                                    "min":  7,
+                                                    "max":  17
+                                                }
+                            },
+    "amendments":  [
+                       "Gypsum",
+                       "Compost"
+                   ],
+    "name":  "Soil32"
+}

@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  39,
+                                                 "max":  71
+                                             },
+                                "temperature":  {
+                                                    "min":  -1,
+                                                    "max":  9
+                                                }
+                            },
+    "fertilizers":  [
+                        "Potassium Chloride",
+                        "Ammonium Sulfate",
+                        "NPK 20-20-20"
+                    ],
+    "name":  "Crop54"
+}

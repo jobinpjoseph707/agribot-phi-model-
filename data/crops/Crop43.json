@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  37,
+                                                 "max":  73
+                                             },
+                                "temperature":  {
+                                                    "min":  3,
+                                                    "max":  24
+                                                }
+                            },
+    "fertilizers":  [
+                        "Urea",
+                        "Potassium Chloride"
+                    ],
+    "name":  "Crop43"
+}

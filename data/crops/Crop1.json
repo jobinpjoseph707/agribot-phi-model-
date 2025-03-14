@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  55,
+                                                 "max":  87
+                                             },
+                                "temperature":  {
+                                                    "min":  5,
+                                                    "max":  29
+                                                }
+                            },
+    "fertilizers":  [
+                        "Diammonium Phosphate",
+                        "Urea",
+                        "Potassium Chloride"
+                    ],
+    "name":  "Crop1"
+}

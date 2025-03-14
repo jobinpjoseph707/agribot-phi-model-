@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  32,
+                                                 "max":  63
+                                             },
+                                "temperature":  {
+                                                    "min":  7,
+                                                    "max":  17
+                                                }
+                            },
+    "name":  "Pest133",
+    "controls":  [
+                     "Pyrethrum",
+                     "Soap Spray",
+                     "Insecticide"
+                 ]
+}

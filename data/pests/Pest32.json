@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  31,
+                                                 "max":  64
+                                             },
+                                "temperature":  {
+                                                    "min":  15,
+                                                    "max":  31
+                                                }
+                            },
+    "name":  "Pest32",
+    "controls":  [
+                     "Soap Spray",
+                     "Pheromone Traps"
+                 ]
+}

@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  48,
+                                                 "max":  75
+                                             },
+                                "temperature":  {
+                                                    "min":  14,
+                                                    "max":  25
+                                                }
+                            },
+    "fertilizers":  [
+                        "Ammonium Sulfate",
+                        "Potassium Chloride",
+                        "Urea"
+                    ],
+    "name":  "Crop185"
+}

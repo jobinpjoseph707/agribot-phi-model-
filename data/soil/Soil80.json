@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  59,
+                                                 "max":  80
+                                             },
+                                "temperature":  {
+                                                    "min":  7,
+                                                    "max":  28
+                                                }
+                            },
+    "amendments":  [
+                       "Lime",
+                       "Gypsum",
+                       "Sulfur"
+                   ],
+    "name":  "Soil80"
+}

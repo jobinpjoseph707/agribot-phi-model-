@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  45,
+                                                 "max":  74
+                                             },
+                                "temperature":  {
+                                                    "min":  11,
+                                                    "max":  28
+                                                }
+                            },
+    "fertilizers":  [
+                        "NPK 20-20-20",
+                        "Ammonium Sulfate",
+                        "Diammonium Phosphate"
+                    ],
+    "name":  "Crop44"
+}

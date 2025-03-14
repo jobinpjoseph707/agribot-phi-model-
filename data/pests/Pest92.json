@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  59,
+                                                 "max":  84
+                                             },
+                                "temperature":  {
+                                                    "min":  9,
+                                                    "max":  21
+                                                }
+                            },
+    "name":  "Pest92",
+    "controls":  [
+                     "Soap Spray",
+                     "Neem Oil"
+                 ]
+}

@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  45,
+                                                 "max":  75
+                                             },
+                                "temperature":  {
+                                                    "min":  2,
+                                                    "max":  26
+                                                }
+                            },
+    "fertilizers":  [
+                        "Diammonium Phosphate",
+                        "Urea"
+                    ],
+    "name":  "Crop46"
+}

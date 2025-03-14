@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  54,
+                                                 "max":  87
+                                             },
+                                "temperature":  {
+                                                    "min":  5,
+                                                    "max":  25
+                                                }
+                            },
+    "fertilizers":  [
+                        "Potassium Chloride",
+                        "Urea"
+                    ],
+    "name":  "Crop84"
+}

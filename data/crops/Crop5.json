@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  49,
+                                                 "max":  76
+                                             },
+                                "temperature":  {
+                                                    "min":  13,
+                                                    "max":  27
+                                                }
+                            },
+    "fertilizers":  [
+                        "NPK 20-20-20",
+                        "Ammonium Sulfate"
+                    ],
+    "name":  "Crop5"
+}

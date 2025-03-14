@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  33,
+                                                 "max":  53
+                                             },
+                                "temperature":  {
+                                                    "min":  8,
+                                                    "max":  21
+                                                }
+                            },
+    "name":  "Pest172",
+    "controls":  [
+                     "Soap Spray",
+                     "Pyrethrum"
+                 ]
+}

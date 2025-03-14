@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  38,
+                                                 "max":  63
+                                             },
+                                "temperature":  {
+                                                    "min":  7,
+                                                    "max":  28
+                                                }
+                            },
+    "fertilizers":  [
+                        "Diammonium Phosphate",
+                        "Urea",
+                        "Ammonium Sulfate"
+                    ],
+    "name":  "Crop107"
+}

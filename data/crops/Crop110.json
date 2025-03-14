@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  57,
+                                                 "max":  93
+                                             },
+                                "temperature":  {
+                                                    "min":  8,
+                                                    "max":  21
+                                                }
+                            },
+    "fertilizers":  [
+                        "Ammonium Sulfate",
+                        "NPK 20-20-20"
+                    ],
+    "name":  "Crop110"
+}

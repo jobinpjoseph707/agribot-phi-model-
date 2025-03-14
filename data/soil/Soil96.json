@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  52,
+                                                 "max":  73
+                                             },
+                                "temperature":  {
+                                                    "min":  5,
+                                                    "max":  22
+                                                }
+                            },
+    "amendments":  [
+                       "Manure",
+                       "Gypsum",
+                       "Sulfur"
+                   ],
+    "name":  "Soil96"
+}

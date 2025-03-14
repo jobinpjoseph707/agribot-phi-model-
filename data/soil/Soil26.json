@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  43,
+                                                 "max":  80
+                                             },
+                                "temperature":  {
+                                                    "min":  -5,
+                                                    "max":  19
+                                                }
+                            },
+    "amendments":  [
+                       "Compost",
+                       "Sulfur",
+                       "Manure"
+                   ],
+    "name":  "Soil26"
+}

@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  43,
+                                                 "max":  63
+                                             },
+                                "temperature":  {
+                                                    "min":  6,
+                                                    "max":  22
+                                                }
+                            },
+    "fertilizers":  [
+                        "Diammonium Phosphate",
+                        "Urea",
+                        "NPK 20-20-20"
+                    ],
+    "name":  "Crop68"
+}

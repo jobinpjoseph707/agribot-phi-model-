@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  37,
+                                                 "max":  71
+                                             },
+                                "temperature":  {
+                                                    "min":  -3,
+                                                    "max":  14
+                                                }
+                            },
+    "fertilizers":  [
+                        "Ammonium Sulfate",
+                        "Potassium Chloride",
+                        "NPK 20-20-20"
+                    ],
+    "name":  "Crop91"
+}

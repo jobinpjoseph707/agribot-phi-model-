@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agrobot</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .response { white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>Agrobot - Agricultural Assistant</h1>
+    <form method="POST">
+        <label for="query">Ask a question:</label><br>
+        <textarea id="query" name="query" rows="4" cols="50">{{ query }}</textarea><br>
+        <input type="submit" value="Submit">
+    </form>
+    <h2>Response:</h2>
+    <div class="response">{{ response }}</div>
+</body>
+</html>

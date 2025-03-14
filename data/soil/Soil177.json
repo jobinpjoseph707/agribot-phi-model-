@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  43,
+                                                 "max":  75
+                                             },
+                                "temperature":  {
+                                                    "min":  0,
+                                                    "max":  18
+                                                }
+                            },
+    "amendments":  [
+                       "Sulfur",
+                       "Compost",
+                       "Gypsum"
+                   ],
+    "name":  "Soil177"
+}

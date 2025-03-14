@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  54,
+                                                 "max":  93
+                                             },
+                                "temperature":  {
+                                                    "min":  -2,
+                                                    "max":  10
+                                                }
+                            },
+    "fertilizers":  [
+                        "Urea",
+                        "NPK 20-20-20"
+                    ],
+    "name":  "Crop182"
+}

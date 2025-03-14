@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  59,
+                                                 "max":  85
+                                             },
+                                "temperature":  {
+                                                    "min":  0,
+                                                    "max":  24
+                                                }
+                            },
+    "fertilizers":  [
+                        "Ammonium Sulfate",
+                        "Potassium Chloride",
+                        "Diammonium Phosphate"
+                    ],
+    "name":  "Crop36"
+}

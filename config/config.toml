@@ -1,0 +1,5 @@
+[api_keys]
+weather_api = "79274170e6244238dc9002b929913b42"
+agri_api = "39aaefd93fecab1feb6849286b7157fd"
+[settings]
+model_path = "phi"

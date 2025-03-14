@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  35,
+                                                 "max":  59
+                                             },
+                                "temperature":  {
+                                                    "min":  13,
+                                                    "max":  31
+                                                }
+                            },
+    "amendments":  [
+                       "Manure",
+                       "Sulfur"
+                   ],
+    "name":  "Soil142"
+}

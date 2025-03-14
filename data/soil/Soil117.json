@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  57,
+                                                 "max":  79
+                                             },
+                                "temperature":  {
+                                                    "min":  8,
+                                                    "max":  31
+                                                }
+                            },
+    "amendments":  [
+                       "Manure",
+                       "Compost",
+                       "Gypsum"
+                   ],
+    "name":  "Soil117"
+}

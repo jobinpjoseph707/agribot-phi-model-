@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  55,
+                                                 "max":  79
+                                             },
+                                "temperature":  {
+                                                    "min":  7,
+                                                    "max":  29
+                                                }
+                            },
+    "fertilizers":  [
+                        "Diammonium Phosphate",
+                        "Ammonium Sulfate"
+                    ],
+    "name":  "Crop41"
+}

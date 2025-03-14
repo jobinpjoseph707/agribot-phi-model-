@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  48,
+                                                 "max":  84
+                                             },
+                                "temperature":  {
+                                                    "min":  14,
+                                                    "max":  37
+                                                }
+                            },
+    "amendments":  [
+                       "Manure",
+                       "Lime"
+                   ],
+    "name":  "Soil10"
+}

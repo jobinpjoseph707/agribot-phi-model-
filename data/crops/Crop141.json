@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  47,
+                                                 "max":  73
+                                             },
+                                "temperature":  {
+                                                    "min":  13,
+                                                    "max":  35
+                                                }
+                            },
+    "fertilizers":  [
+                        "Ammonium Sulfate",
+                        "Urea"
+                    ],
+    "name":  "Crop141"
+}

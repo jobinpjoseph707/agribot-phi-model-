@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  36,
+                                                 "max":  72
+                                             },
+                                "temperature":  {
+                                                    "min":  -2,
+                                                    "max":  17
+                                                }
+                            },
+    "amendments":  [
+                       "Manure",
+                       "Sulfur",
+                       "Lime"
+                   ],
+    "name":  "Soil121"
+}

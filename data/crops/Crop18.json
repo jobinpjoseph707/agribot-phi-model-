@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  44,
+                                                 "max":  81
+                                             },
+                                "temperature":  {
+                                                    "min":  8,
+                                                    "max":  32
+                                                }
+                            },
+    "fertilizers":  [
+                        "Diammonium Phosphate",
+                        "NPK 20-20-20",
+                        "Ammonium Sulfate"
+                    ],
+    "name":  "Crop18"
+}

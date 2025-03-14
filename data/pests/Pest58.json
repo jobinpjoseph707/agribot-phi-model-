@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  56,
+                                                 "max":  80
+                                             },
+                                "temperature":  {
+                                                    "min":  19,
+                                                    "max":  34
+                                                }
+                            },
+    "name":  "Pest58",
+    "controls":  [
+                     "Soap Spray",
+                     "Pyrethrum",
+                     "Pheromone Traps"
+                 ]
+}

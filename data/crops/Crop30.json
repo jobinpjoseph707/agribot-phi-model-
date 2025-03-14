@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  50,
+                                                 "max":  76
+                                             },
+                                "temperature":  {
+                                                    "min":  3,
+                                                    "max":  19
+                                                }
+                            },
+    "fertilizers":  [
+                        "NPK 20-20-20",
+                        "Diammonium Phosphate",
+                        "Urea"
+                    ],
+    "name":  "Crop30"
+}

@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  40,
+                                                 "max":  71
+                                             },
+                                "temperature":  {
+                                                    "min":  12,
+                                                    "max":  24
+                                                }
+                            },
+    "name":  "Pest153",
+    "controls":  [
+                     "Neem Oil",
+                     "Soap Spray"
+                 ]
+}

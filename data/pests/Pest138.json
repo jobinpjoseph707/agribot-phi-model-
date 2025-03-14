@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  51,
+                                                 "max":  86
+                                             },
+                                "temperature":  {
+                                                    "min":  8,
+                                                    "max":  31
+                                                }
+                            },
+    "name":  "Pest138",
+    "controls":  [
+                     "Neem Oil",
+                     "Pheromone Traps",
+                     "Insecticide"
+                 ]
+}

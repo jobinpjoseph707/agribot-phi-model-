@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  40,
+                                                 "max":  65
+                                             },
+                                "temperature":  {
+                                                    "min":  -2,
+                                                    "max":  22
+                                                }
+                            },
+    "fertilizers":  [
+                        "NPK 20-20-20",
+                        "Urea"
+                    ],
+    "name":  "Crop14"
+}

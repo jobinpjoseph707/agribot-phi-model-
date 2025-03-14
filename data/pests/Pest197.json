@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  42,
+                                                 "max":  78
+                                             },
+                                "temperature":  {
+                                                    "min":  17,
+                                                    "max":  37
+                                                }
+                            },
+    "name":  "Pest197",
+    "controls":  [
+                     "Pheromone Traps",
+                     "Insecticide",
+                     "Pyrethrum"
+                 ]
+}

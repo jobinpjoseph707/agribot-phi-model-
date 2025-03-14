@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  59,
+                                                 "max":  88
+                                             },
+                                "temperature":  {
+                                                    "min":  10,
+                                                    "max":  32
+                                                }
+                            },
+    "fertilizers":  [
+                        "Potassium Chloride",
+                        "Urea",
+                        "NPK 20-20-20"
+                    ],
+    "name":  "Crop28"
+}

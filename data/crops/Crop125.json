@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  45,
+                                                 "max":  83
+                                             },
+                                "temperature":  {
+                                                    "min":  -5,
+                                                    "max":  15
+                                                }
+                            },
+    "fertilizers":  [
+                        "Diammonium Phosphate",
+                        "Ammonium Sulfate"
+                    ],
+    "name":  "Crop125"
+}

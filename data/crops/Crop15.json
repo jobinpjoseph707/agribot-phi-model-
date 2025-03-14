@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  49,
+                                                 "max":  85
+                                             },
+                                "temperature":  {
+                                                    "min":  7,
+                                                    "max":  25
+                                                }
+                            },
+    "fertilizers":  [
+                        "NPK 20-20-20",
+                        "Potassium Chloride"
+                    ],
+    "name":  "Crop15"
+}

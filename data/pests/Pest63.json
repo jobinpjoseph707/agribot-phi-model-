@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  56,
+                                                 "max":  88
+                                             },
+                                "temperature":  {
+                                                    "min":  19,
+                                                    "max":  40
+                                                }
+                            },
+    "name":  "Pest63",
+    "controls":  [
+                     "Insecticide",
+                     "Pyrethrum"
+                 ]
+}

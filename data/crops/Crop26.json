@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  49,
+                                                 "max":  83
+                                             },
+                                "temperature":  {
+                                                    "min":  8,
+                                                    "max":  22
+                                                }
+                            },
+    "fertilizers":  [
+                        "Urea",
+                        "NPK 20-20-20",
+                        "Ammonium Sulfate"
+                    ],
+    "name":  "Crop26"
+}

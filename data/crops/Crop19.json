@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  56,
+                                                 "max":  79
+                                             },
+                                "temperature":  {
+                                                    "min":  -4,
+                                                    "max":  12
+                                                }
+                            },
+    "fertilizers":  [
+                        "Urea",
+                        "Ammonium Sulfate"
+                    ],
+    "name":  "Crop19"
+}

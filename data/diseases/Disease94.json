@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  54,
+                                                 "max":  80
+                                             },
+                                "temperature":  {
+                                                    "min":  19,
+                                                    "max":  33
+                                                }
+                            },
+    "affected_crops":  [
+                           "Crop146",
+                           "Crop165"
+                       ],
+    "name":  "Disease94"
+}

@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  43,
+                                                 "max":  73
+                                             },
+                                "temperature":  {
+                                                    "min":  13,
+                                                    "max":  23
+                                                }
+                            },
+    "fertilizers":  [
+                        "Urea",
+                        "Ammonium Sulfate",
+                        "Potassium Chloride"
+                    ],
+    "name":  "Crop129"
+}

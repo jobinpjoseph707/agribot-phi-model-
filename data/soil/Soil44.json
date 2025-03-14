@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  59,
+                                                 "max":  83
+                                             },
+                                "temperature":  {
+                                                    "min":  -3,
+                                                    "max":  14
+                                                }
+                            },
+    "amendments":  [
+                       "Sulfur",
+                       "Compost"
+                   ],
+    "name":  "Soil44"
+}

@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  53,
+                                                 "max":  85
+                                             },
+                                "temperature":  {
+                                                    "min":  7,
+                                                    "max":  28
+                                                }
+                            },
+    "name":  "Pest47",
+    "controls":  [
+                     "Soap Spray",
+                     "Insecticide",
+                     "Pheromone Traps"
+                 ]
+}

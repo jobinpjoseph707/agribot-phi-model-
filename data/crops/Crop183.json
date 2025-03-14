@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  31,
+                                                 "max":  58
+                                             },
+                                "temperature":  {
+                                                    "min":  -2,
+                                                    "max":  15
+                                                }
+                            },
+    "fertilizers":  [
+                        "Ammonium Sulfate",
+                        "Potassium Chloride"
+                    ],
+    "name":  "Crop183"
+}

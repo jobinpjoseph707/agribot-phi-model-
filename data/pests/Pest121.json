@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  35,
+                                                 "max":  73
+                                             },
+                                "temperature":  {
+                                                    "min":  7,
+                                                    "max":  29
+                                                }
+                            },
+    "name":  "Pest121",
+    "controls":  [
+                     "Pheromone Traps",
+                     "Pyrethrum"
+                 ]
+}

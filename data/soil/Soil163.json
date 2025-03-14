@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  45,
+                                                 "max":  83
+                                             },
+                                "temperature":  {
+                                                    "min":  -1,
+                                                    "max":  23
+                                                }
+                            },
+    "amendments":  [
+                       "Manure",
+                       "Sulfur",
+                       "Gypsum"
+                   ],
+    "name":  "Soil163"
+}

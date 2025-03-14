@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  45,
+                                                 "max":  70
+                                             },
+                                "temperature":  {
+                                                    "min":  5,
+                                                    "max":  25
+                                                }
+                            },
+    "fertilizers":  [
+                        "NPK 20-20-20",
+                        "Diammonium Phosphate",
+                        "Potassium Chloride"
+                    ],
+    "name":  "Crop49"
+}

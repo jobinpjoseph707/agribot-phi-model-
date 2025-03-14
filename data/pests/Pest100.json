@@ -1,0 +1,18 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  57,
+                                                 "max":  81
+                                             },
+                                "temperature":  {
+                                                    "min":  12,
+                                                    "max":  33
+                                                }
+                            },
+    "name":  "Pest100",
+    "controls":  [
+                     "Pheromone Traps",
+                     "Neem Oil",
+                     "Pyrethrum"
+                 ]
+}

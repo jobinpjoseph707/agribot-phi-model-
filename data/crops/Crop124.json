@@ -1,0 +1,17 @@
+{
+    "weather_preferences":  {
+                                "humidity":  {
+                                                 "min":  57,
+                                                 "max":  94
+                                             },
+                                "temperature":  {
+                                                    "min":  14,
+                                                    "max":  26
+                                                }
+                            },
+    "fertilizers":  [
+                        "Potassium Chloride",
+                        "Ammonium Sulfate"
+                    ],
+    "name":  "Crop124"
+}
