@@ -1,18 +1,8 @@
 {
-    "weather_preferences":  {
-                                "humidity":  {
-                                                 "min":  55,
-                                                 "max":  83
-                                             },
-                                "temperature":  {
-                                                    "min":  -1,
-                                                    "max":  17
-                                                }
-                            },
-    "fertilizers":  [
-                        "Potassium Chloride",
-                        "Ammonium Sulfate",
-                        "Urea"
-                    ],
-    "name":  "Crop6"
+    "name": "Cotton",
+    "weather_preferences": {
+        "temperature": {"min": 15, "max": 35},
+        "humidity": {"min": 30, "max": 60}
+    },
+    "fertilizers": ["Nitrogen", "Potassium"]
 }

@@ -8,6 +8,11 @@ from src.bot_interface import BotInterface
 app = Flask(__name__)
 bot = BotInterface()
 
+# @app.after_request
+# def add_csp_header(response):
+#     response.headers['Content-Security-Policy'] = "script-src 'self' 'unsafe-eval';"
+#     return response
+
 @app.route('/', methods=['GET'])
 def home():
     # Render the initial template with no chat history.

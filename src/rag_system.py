@@ -22,7 +22,8 @@ class RAGSystem:
         return data
 
     def retrieve(self, query, weather):
-        if re.search(r"best crop for| suitable crop for| recommended crop for", query, re.IGNORECASE):
+        query_lower = query.lower()
+        if re.search(r"best crop for|suitable crop for|recommended crop for|what is the best crop", query_lower):
             suitable_crops = []
             temp = weather.get("temp") if isinstance(weather, dict) else None
             humidity = weather.get("humidity") if isinstance(weather, dict) else None
@@ -36,10 +37,9 @@ class RAGSystem:
                     if (temp is not None and humidity is not None and 
                         temp_min <= temp <= temp_max and humid_min <= humidity <= humid_max):
                         suitable_crops.append(value["name"])
-            return suitable_crops[:3] if suitable_crops else "No suitable crops found."
+            return suitable_crops[:3] if suitable_crops else "No fully matching crops found in database."
         else:
-            query_lower = query.lower()
             for key, value in self.data.items():
                 if query_lower in key.lower() or any(query_lower in str(v).lower() for v in value.values()):
-                    return value
+                    return value["name"] if value["category"] == "crops" else value
             return "No specific data found for " + query
