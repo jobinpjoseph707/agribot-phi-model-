@@ -10,7 +10,8 @@ class RAGSystem:
 
     def load_data(self):
         data = {}
-        for category in ["crops", "diseases", "pests", "soil"]:
+        # for category in ["crops", "diseases", "pests", "soil"]:
+        for category in ["crops"]:
             dir_path = os.path.join(self.data_dir, category)
             if os.path.exists(dir_path):
                 for file in os.listdir(dir_path):

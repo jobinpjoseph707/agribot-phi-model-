@@ -1,119 +1,673 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agribot Chat</title>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
     body {
-      font-family: Arial, sans-serif;
-      display: flex;
+      font-family: 'Roboto', sans-serif;
       margin: 0;
       padding: 0;
+      background-color: #f0f4f8;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
     }
+
+    /* Header */
+    .header {
+      background: linear-gradient(90deg, #2e7d32, #66bb6a);
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 1.8em;
+      font-weight: 500;
+    }
+
+    .logout-btn {
+      background: #d32f2f;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background: #b71c1c;
+      transform: translateY(-2px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* Login Form */
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #e8f5e9, #ffffff);
+    }
+
+    .login-form {
+      background: #fff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .login-form h2 {
+      margin: 0 0 20px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .login-form input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .login-form input:focus {
+      outline: none;
+      border-color: #2e7d32;
+      box-shadow: 0 0 5px rgba(46, 125, 50, 0.3);
+    }
+
+    .login-form button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #2e7d32, #66bb6a);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .login-form button:hover {
+      background: linear-gradient(90deg, #27632a, #5cb85c);
+      transform: translateY(-2px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .login-error {
+      color: #d32f2f;
+      font-size: 0.9em;
+      margin-top: 10px;
+    }
+
+    /* Main Layout */
+    .main-container {
+      display: none;
+      flex: 1;
+      overflow: hidden;
+      background: #f0f4f8;
+      flex-direction: row;
+    }
+
     .chat-container {
       flex: 1;
       padding: 20px;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      margin: 20px;
     }
+
     .weather-container {
       width: 30%;
-      background-color: #f5f5f5;
+      background: #f9f9f9;
       padding: 20px;
-      border-left: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
+
+    .weather-container h3 {
+      margin: 0;
+      color: #333;
+      font-size: 1.2em;
+      font-weight: 500;
+    }
+
+    #weatherInfo {
+      font-size: 1em;
+      color: #555;
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    #weatherInfo:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .weather-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 5px 0;
+    }
+
+    .weather-item span {
+      font-weight: 500;
+    }
+
+    /* Chat History */
+    #chatHistory {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+    }
+
     .chat-bubble {
       margin-bottom: 15px;
+      padding: 12px 18px;
+      border-radius: 15px;
+      max-width: 70%;
+      position: relative;
+      animation: fadeIn 0.3s ease;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .user {
+      background: linear-gradient(135deg, #dcedc8, #c5e1a5);
+      align-self: flex-end;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .bot {
+      background: linear-gradient(135deg, #ffffff, #f5f5f5);
+      border: 1px solid #ddd;
+      align-self: flex-start;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .timestamp {
+      font-size: 0.8em;
+      color: #999;
+      margin-top: 5px;
+      text-align: right;
+    }
+
+    .bot .timestamp {
+      text-align: left;
+    }
+
     .greeting {
       font-size: 1.2em;
       margin-bottom: 20px;
+      color: #333;
+      text-align: center;
+      background: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    .response {
-      white-space: pre-wrap;
-    }
+
     #loadingIndicator {
       display: none;
       margin-top: 20px;
       font-style: italic;
       color: #555;
+      text-align: center;
+    }
+
+    /* Input Form */
+    #chatForm {
+      display: flex;
+      margin-top: 20px;
+      background: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    #queryInput {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    #queryInput:focus {
+      outline: none;
+      border-color: #2e7d32;
+      box-shadow: 0 0 5px rgba(46, 125, 50, 0.3);
+    }
+
+    #chatForm button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      background: linear-gradient(90deg, #2e7d32, #66bb6a);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    #chatForm button:hover {
+      background: linear-gradient(90deg, #27632a, #5cb85c);
+      transform: translateY(-2px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    #chatForm button:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+      }
+      .weather-container {
+        width: 100%;
+        margin: 10px 0;
+      }
+      .chat-container {
+        margin: 10px 0;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="chat-container">
-    <!-- Initial Greeting -->
-    <div class="greeting">Welcome to Agribot! How can we help you today?</div>
-    
-    <!-- Chat Input Form -->
-    <form id="chatForm">
-      <input type="text" id="queryInput" placeholder="Type your message here..." style="width: 80%;" required>
-      <button type="submit">Send</button>
+  <!-- Login Form -->
+  <div class="login-container" id="authContainer">
+    <form class="login-form" id="loginForm">
+      <h2>🌱 Agribot Login</h2>
+      <div class="form-group">
+        <label for="loginEmail">Email:</label>
+        <input type="email" id="loginEmail" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" name="password" required>
+      </div>
+      <button class="form-button" type="submit">Login</button>
+      <a href="#" class="forgot-password-link" id="forgotPasswordLink">Forgot Password?</a>
+      <div class="form-group">
+        <button class="form-button" type="button" id="showSignupForm">Sign Up</button>
+      </div>
+      <div class="login-error" id="loginError"></div>
     </form>
-    
-    <!-- Loading Indicator -->
-    <div id="loadingIndicator">Agent is thinking...</div>
-    
-    <!-- Chat History Display -->
-    <div id="chatHistory"></div>
+
+    <form class="login-form" id="signupForm" style="display: none;">
+      <h2>🌱 Agribot Sign Up</h2>
+      <div class="form-group">
+        <label for="signupEmail">Email:</label>
+        <input type="email" id="signupEmail" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="signupPassword">Password:</label>
+        <input type="password" id="signupPassword" name="password" required>
+      </div>
+      <button class="form-button" type="submit">Sign Up</button>
+      <div class="form-group">
+        <button class="form-button" type="button" id="showLoginForm">Login</button>
+      </div>
+      <div class="login-error" id="signupError"></div>
+    </form>
+
+    <form class="login-form" id="forgotPasswordForm" style="display: none;">
+      <h2>🌱 Forgot Password</h2>
+      <div class="form-group">
+        <label for="forgotPasswordEmail">Email:</label>
+        <input type="email" id="forgotPasswordEmail" name="email" required>
+      </div>
+      <button class="form-button" type="submit">Reset Password</button>
+      <div class="form-group">
+        <button class="form-button" type="button" id="showLoginFormFromForgot">Login</button>
+      </div>
+      <div class="login-error" id="forgotPasswordError"></div>
+    </form>
   </div>
-  
-  <!-- Weather Information Panel -->
-  <div class="weather-container">
-    <h3>Weather Info</h3>
-    <div id="weatherInfo">No weather data available.</div>
+
+  <!-- Header -->
+  <div class="header" id="chatHeader" style="display: none;">
+    <h1>🌱 Agribot</h1>
+    <button class="logout-btn" id="logoutBtn">Logout</button>
   </div>
-  
+
+  <!-- Main Layout -->
+  <div class="main-container" id="mainContainer">
+    <div class="chat-container">
+      <div class="greeting">Welcome to Agribot! Ask me about agriculture, weather in Indian states, or get farming tips.</div>
+      <form id="chatForm">
+        <input type="text" id="queryInput" placeholder="Type your message here..." required>
+        <button type="submit">Send</button>
+      </form>
+      <div id="loadingIndicator">Agent is thinking...</div>
+      <div id="chatHistory"></div>
+    </div>
+    <div class="weather-container">
+      <h3>Weather Info</h3>
+      <div id="weatherInfo">No weather data available.</div>
+    </div>
+  </div>
+
   <script>
-    // List of Indian states for simple location detection
-    const indianStates = [
-      "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
-      "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
-      "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
-      "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
-      "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Delhi"
-    ];
-    
-    document.getElementById('chatForm').addEventListener('submit', async function(e) {
+    // Firebase Configuration
+    const firebaseConfig = {
+    apiKey: "AIzaSyCr80D5aQCeWVIUafq9dWkoCRN__FSjwWo",
+    authDomain: "agribot-55bba.firebaseapp.com",
+    projectId: "agribot-55bba",
+    storageBucket: "agribot-55bba.firebasestorage.app",
+    messagingSenderId: "1058380199132",
+    appId: "1:1058380199132:web:4c4aae2a2222d29a547019",
+    measurementId: "G-YFEW1L3NJ3"
+  };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Elements
+    const authContainer = document.getElementById('authContainer');
+    const chatHeader = document.getElementById('chatHeader');
+    const mainContainer = document.getElementById('mainContainer');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+    const showSignupFormButton = document.getElementById('showSignupForm');
+    const showLoginFormButton = document.getElementById('showLoginForm');
+    const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+    const showLoginFormFromForgotButton = document.getElementById('showLoginFormFromForgot');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    // Show Login Form
+    function showLoginForm() {
+      authContainer.style.display = 'flex';
+      chatHeader.style.display = 'none';
+      mainContainer.style.display = 'none';
+      loginForm.style.display = 'block';
+      signupForm.style.display = 'none';
+      forgotPasswordForm.style.display = 'none';
+      document.getElementById('chatHistory').innerHTML = '';
+      document.getElementById('weatherInfo').textContent = 'No weather data available.';
+    }
+
+    // Show Chat Interface
+    function showChatInterface() {
+      authContainer.style.display = 'none';
+      chatHeader.style.display = 'flex';
+      mainContainer.style.display = 'flex';
+    }
+
+    // Event Listeners for form navigation
+    showLoginFormButton.addEventListener('click', () => {
+      signupForm.style.display = 'none';
+      loginForm.style.display = 'block';
+    });
+
+    showSignupFormButton.addEventListener('click', () => {
+      loginForm.style.display = 'none';
+      signupForm.style.display = 'block';
+    });
+
+    forgotPasswordLink.addEventListener('click', () => {
+      loginForm.style.display = 'none';
+      forgotPasswordForm.style.display = 'block';
+    });
+
+    showLoginFormFromForgotButton.addEventListener('click', () => {
+      forgotPasswordForm.style.display = 'none';
+      loginForm.style.display = 'block';
+    });
+
+    // Login Submission
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      // Get user query and clear the input
-      let query = document.getElementById('queryInput').value;
-      document.getElementById('queryInput').value = '';
-      
-      // Append user's message to chat history
-      const chatHistory = document.getElementById('chatHistory');
-      chatHistory.innerHTML += `<div class="chat-bubble"><strong>You:</strong> ${query}</div>`;
-      
-      // Determine if the query contains a location
-      const locationFound = indianStates.some(state => query.toLowerCase().includes(state.toLowerCase()));
-      
-      // Set loading text based on query type
-      const loadingIndicator = document.getElementById('loadingIndicator');
-      loadingIndicator.textContent = locationFound ? "Agent is thinking with RAG..." : "Agent is thinking...";
-      loadingIndicator.style.display = 'block';
-      
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const loginError = document.getElementById('loginError');
+      loginError.textContent = '';
       try {
-        // Fire the API call to /api/query
+        await auth.signInWithEmailAndPassword(email, password);
+        console.log('User logged in successfully');
+        showChatInterface();
+      } catch (error) {
+        console.error('Login error:', error.message);
+        loginError.textContent = 'Invalid email or password.';
+      }
+    });
+
+    // Signup Submission
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const signupError = document.getElementById('signupError');
+      signupError.textContent = '';
+      try {
+        await auth.createUserWithEmailAndPassword(email, password);
+        console.log('User registered successfully');
+        loginForm.style.display = 'block';
+        signupForm.style.display = 'none';
+      } catch (error) {
+        console.error('Signup error:', error.message);
+        signupError.textContent = error.message;
+      }
+    });
+
+    // Forgot Password Submission
+    forgotPasswordForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('forgotPasswordEmail').value;
+      const forgotPasswordError = document.getElementById('forgotPasswordError');
+      forgotPasswordError.textContent = '';
+      try {
+        await auth.sendPasswordResetEmail(email);
+        console.log('Password reset email sent');
+        forgotPasswordForm.style.display = 'none';
+        loginForm.style.display = 'block';
+        forgotPasswordError.textContent = 'Password reset email sent';
+      } catch (error) {
+        console.error('Password reset error:', error.message);
+        forgotPasswordError.textContent = error.message;
+      }
+    });
+
+    // Authentication State Listener
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log('User is signed in');
+        showChatInterface();
+      } else {
+        console.log('User is signed out');
+        showLoginForm();
+      }
+    });
+
+    // Logout Handler
+    logoutBtn.addEventListener('click', () => {
+      auth.signOut().then(() => {
+        console.log('User signed out successfully.');
+        showLoginForm();
+      }).catch((error) => {
+        console.error('Error signing out:', error);
+      });
+    });
+    // Chat Form Submission
+    document.getElementById('chatForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const queryInput = document.getElementById('queryInput');
+      const query = queryInput.value;
+      queryInput.value = '';
+
+      // Log the user's query to the console
+      console.log("User Query:", query);
+
+      const chatHistory = document.getElementById('chatHistory');
+      const userTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      chatHistory.innerHTML += `
+        <div class="chat-bubble user">
+          <strong>You:</strong> ${query}
+          <div class="timestamp">${userTimestamp}</div>
+        </div>`;
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+      queryInput.disabled = true;
+      const startTime = performance.now(); // Start timing
+      const sendButton = document.querySelector('#chatForm button');
+      sendButton.disabled = true;
+      const loadingIndicator = document.getElementById('loadingIndicator');
+      loadingIndicator.style.display = 'block';
+      try {
         const response = await fetch('/api/query', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams({ query: query })
         });
         const data = await response.json();
-        loadingIndicator.style.display = 'none';
-        
-        // Append bot's response to chat history
-        chatHistory.innerHTML += `<div class="chat-bubble"><strong>Agribot:</strong> ${data.response}</div>`;
-        
-        // Update weather panel if location was detected and weather data is returned
-        if(locationFound && data.weather) {
-          document.getElementById('weatherInfo').textContent = "Weather: " + data.weather;
+
+        // Log the raw API response to the console
+        console.log("API Response:", data);
+
+        const botTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        chatHistory.innerHTML += `
+          <div class="chat-bubble bot">
+            <strong>Agribot:</strong> ${data.response}
+            <div class="timestamp">${botTimestamp}</div>
+          </div>`;
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+        if (data.weather) {
+          const weather = data.weather;
+          const weatherText = `
+            <div class="weather-item">🌤️ <span>Condition:</span> ${weather.weather}</div>
+            <div class="weather-item">🌡️ <span>Temperature:</span> ${weather.temp}°C</div>
+            <div class="weather-item">💧 <span>Humidity:</span> ${weather.humidity}%</div>
+          `;
+          document.getElementById('weatherInfo').innerHTML = weatherText;
         } else {
           document.getElementById('weatherInfo').textContent = "No weather data available.";
         }
       } catch (error) {
+        console.error("API call failed:", error);
+        const botTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        chatHistory.innerHTML += `
+          <div class="chat-bubble bot">
+            <strong>Agribot:</strong> Sorry, I couldn't process your request. Please try again later.
+            <div class="timestamp">${botTimestamp}</div>
+          </div>`;
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+        document.getElementById('weatherInfo').textContent = "No weather data available.";
+      } finally {
+        queryInput.disabled = false;
+        sendButton.disabled = false;
         loadingIndicator.style.display = 'none';
-        chatHistory.innerHTML += `<div class="chat-bubble"><strong>Agribot:</strong> Error fetching response.</div>`;
+        const endTime = performance.now(); // End timing
+        const elapsedTime = endTime - startTime;
+        console.log(`Query took ${elapsedTime} milliseconds`);
       }
     });
+
+
+    // // Chat Form Submission
+    // document.getElementById('chatForm').addEventListener('submit', async (e) => {
+    //   e.preventDefault();
+    //   const queryInput = document.getElementById('queryInput');
+    //   const query = queryInput.value;
+    //   queryInput.value = '';
+    //   const chatHistory = document.getElementById('chatHistory');
+    //   const userTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    //   chatHistory.innerHTML += `
+    //     <div class="chat-bubble user">
+    //       <strong>You:</strong> ${query}
+    //       <div class="timestamp">${userTimestamp}</div>
+    //     </div>`;
+    //   chatHistory.scrollTop = chatHistory.scrollHeight;
+    //   queryInput.disabled = true;
+    //   const sendButton = document.querySelector('#chatForm button');
+    //   sendButton.disabled = true;
+    //   const loadingIndicator = document.getElementById('loadingIndicator');
+    //   loadingIndicator.style.display = 'block';
+    //   try {
+    //     const response = await fetch('/api/query', {
+    //       method: 'POST',
+    //       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    //       body: new URLSearchParams({ query: query })
+    //     });
+    //     const data = await response.json();
+    //     const botTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    //     chatHistory.innerHTML += `
+    //       <div class="chat-bubble bot">
+    //         <strong>Agribot:</strong> ${data.response}
+    //         <div class="timestamp">${botTimestamp}</div>
+    //       </div>`;
+    //     chatHistory.scrollTop = chatHistory.scrollHeight;
+    //     if (data.weather) {
+    //       const weather = data.weather;
+    //       const weatherText = `
+    //         <div class="weather-item">🌤️ <span>Condition:</span> ${weather.weather}</div>
+    //         <div class="weather-item">🌡️ <span>Temperature:</span> ${weather.temp}°C</div>
+    //         <div class="weather-item">💧 <span>Humidity:</span> ${weather.humidity}%</div>
+    //       `;
+    //       document.getElementById('weatherInfo').innerHTML = weatherText;
+    //     } else {
+    //       document.getElementById('weatherInfo').textContent = "No weather data available.";
+    //     }
+    //   } catch (error) {
+    //     console.error("API call failed:", error);
+    //     const botTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    //     chatHistory.innerHTML += `
+    //       <div class="chat-bubble bot">
+    //         <strong>Agribot:</strong> Sorry, I couldn't process your request. Please try again later.
+    //         <div class="timestamp">${botTimestamp}</div>
+    //       </div>`;
+    //     chatHistory.scrollTop = chatHistory.scrollHeight;
+    //     document.getElementById('weatherInfo').textContent = "No weather data available.";
+    //   } finally {
+    //     queryInput.disabled = false;
+    //     sendButton.disabled = false;
+    //     loadingIndicator.style.display = 'none';
+    //     const endTime = performance.now(); // End timing
+    // const elapsedTime = endTime - startTime;
+    // console.log(`Query took ${elapsedTime} milliseconds`);
+    //   }
+    // });
   </script>
 </body>
 </html>
