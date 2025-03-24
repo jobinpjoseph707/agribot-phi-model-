@@ -574,7 +574,12 @@
           </div>`;
         chatHistory.scrollTop = chatHistory.scrollHeight;
         if (data.weather) {
-          const weather = data.weather;
+          const weather = JSON.parse(data.weather.replace(/'/g, '"'));
+          console.log(weather);
+          console.log(weather.temp);
+          console.log(weather.weather);
+
+          
           const weatherText = `
             <div class="weather-item">🌤️ <span>Condition:</span> ${weather.weather}</div>
             <div class="weather-item">🌡️ <span>Temperature:</span> ${weather.temp}°C</div>
