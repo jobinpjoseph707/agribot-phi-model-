@@ -1,12 +1,12 @@
 {
     "weather_preferences":  {
                                 "humidity":  {
-                                                 "min":  55,
-                                                 "max":  87
+                                                 "min":  35,
+                                                 "max":  57
                                              },
                                 "temperature":  {
-                                                    "min":  5,
-                                                    "max":  29
+                                                    "min":  8,
+                                                    "max":  20
                                                 }
                             },
     "fertilizers":  [

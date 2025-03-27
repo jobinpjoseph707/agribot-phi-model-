@@ -113,7 +113,7 @@ class BotInterface:
         original_query = query
         query = query.lower()
 
-        # Handle greetings
+        # Handle greetings (before main flow)
         contains_greeting = False
         for greeting in faq_cache.keys():
             if re.search(r'\b' + re.escape(greeting) + r'\b', query):
@@ -125,23 +125,21 @@ class BotInterface:
                 if re.search(r'\b' + re.escape(greeting) + r'\b', original_query.lower()):
                     return response
 
-        # Update location context
-        new_location = self.extract_location(query)
-        if new_location and self.last_location and new_location != self.last_location:
+        # Step 1: Check for location
+        location = self.extract_location(query)
+        if location and self.last_location and location != self.last_location:
             self.last_response = None
-            self.last_location = new_location
-        elif new_location:
-            self.last_location = new_location
+            self.last_location = location
+        elif location:
+            self.last_location = location
 
-        # Crop suggestion patterns
+        # Crop suggestion patterns (location-based)
         crop_suggestion_patterns = [
             r"(?:what\s*(?:kind of|are the|is a good|is the best|can i use|suitable for|best|good)\s*crop[s]?|(?:best|suitable|good)\s*crop[s]?\s*for)\s*(?:in\s*)?(\w+)",
             r"what\s*(?:is|are)\s*the\s*best\s*crop[s]?\s*(?:to\s*use|to\s*grow|to\s*plant)?\s*(?:in|for)\s*(\w+)",
             r"what\s*crop[s]?\s*(?:should|can|must)\s*(?:i|we|one|you)?\s*(?:use|grow|plant)\s*(?:in|for)\s*(\w+)",
             r"what\s*(?:is|are)\s*the\s*crops?\s*that\s*(?:i|we|one|you)?\s*can\s*use\s*in\s*(\w+)"
         ]
-
-        location = None
         for pattern in crop_suggestion_patterns:
             crop_suggestion_match = re.search(pattern, query)
             if crop_suggestion_match:
@@ -149,221 +147,182 @@ class BotInterface:
                 for state in self.indian_states:
                     if location_match.lower() in state.lower() or state.lower() in query:
                         location = state
-                        break
+                        return self.handle_crop_suggestion(location, original_query)
                 break
 
+        # Step 2: Check for specific crop if location exists
         if location:
-            return self.handle_crop_suggestion(location, query or original_query)
+            crop_match = re.search(r"(?:can |if |is )?(\w+)\s*(?:be used in|better for|good in|suitable for|for)\s*(\w+)", query)
+            if not crop_match:
+                for crop_name in [c["name"].lower() for c in self.rag.data.values() if c["category"] == "crops"]:
+                    if crop_name in query:
+                        crop = crop_name.capitalize()
+                        break
+                else:
+                    crop = None
+            else:
+                crop = crop_match.group(1)
+                location = location or crop_match.group(2)
 
-        if new_location:
-            location = new_location
+            if crop:
+                try:
+                    weather = self.update_weather_data(location)
+                    if "error" in weather:
+                        return f"Error: {weather['error']}"
+                    for crop_data in self.rag.data.values():
+                        if crop_data["category"] == "crops" and crop_data["name"].lower() == crop.lower():
+                            self.last_crop = crop_data["name"]
+                            self.last_location = location
+                            prefs = crop_data.get("weather_preferences", {})
+                            temp_min = prefs.get("temperature", {}).get("min", -float('inf'))
+                            temp_max = prefs.get("temperature", {}).get("max", float('inf'))
+                            humid_min = prefs.get("humidity", {}).get("min", -float('inf'))
+                            humid_max = prefs.get("humidity", {}).get("max", float('inf'))
+                            temp = weather.get("temp", float('inf'))
+                            humidity = weather.get("humidity", float('inf'))
+                            temp_suitable = temp_min <= temp <= temp_max
+                            humid_suitable = humid_min <= humidity <= humid_max
+                            if temp_suitable and humid_suitable:
+                                response = (
+                                    f"{crop} suits {location}'s weather well. "
+                                    f"Its ideal temperature range is {temp_min}-{temp_max}°C. "
+                                    f"Its humidity range is {humid_min}-{humid_max}%. "
+                                    f"Current conditions ({temp}°C, {humidity}%) match perfectly. "
+                                    f"It's a good choice for planting now."
+                                )
+                            elif temp_suitable:
+                                response = (
+                                    f"{crop} may work in {location}. "
+                                    f"Its temperature range ({temp_min}-{temp_max}°C) fits {temp}°C. "
+                                    f"However, humidity ({humidity}%) is below {humid_min}%. "
+                                    f"Low humidity might stress the crop. "
+                                    f"Consider irrigation to boost moisture."
+                                )
+                            elif humid_suitable:
+                                response = (
+                                    f"{crop} may not thrive in {location}. "
+                                    f"Its humidity range ({humid_min}-{humid_max}%) fits {humidity}%. "
+                                    f"But {temp}°C is outside {temp_min}-{temp_max}°C. "
+                                    f"Temperature mismatch could affect growth. "
+                                    f"Consider alternatives for better yield."
+                                )
+                            else:
+                                response = (
+                                    f"{crop} isn't ideal for {location}. "
+                                    f"Its temperature range is {temp_min}-{temp_max}°C, not {temp}°C. "
+                                    f"Its humidity range is {humid_min}-{humid_max}%, not {humidity}%. "
+                                    f"These conditions don't match well. "
+                                    f"Look for other crops instead."
+                                )
+                            full_response = f"Weather: {weather}\nRAG: {crop}\nModel: {response}"
+                            self.set_last_response(query, weather, crop, response)
+                            return full_response
+                    response = f"Weather: {weather}\nRAG: No specific data found\nModel: {crop} is not in our database."
+                    self.set_last_response(query, weather, "No specific data found", f"{crop} is not in our database.")
+                    return response
+                except Exception as e:
+                    return f"Error fetching weather: {str(e)}"
 
-        # Handle "why" queries
-        if re.search(r"\bwhy\b", query) and self.last_crop and self.last_response:
-            weather = self.last_response["weather"] or self.update_weather_data(self.last_location)
-            if "error" in weather:
-                return f"Error: {weather['error']}"
-            for crop_data in self.rag.data.values():
-                if crop_data["name"].lower() == self.last_crop.lower():
-                    prefs = crop_data.get("weather_preferences", {})
-                    temp_min = prefs.get("temperature", {}).get("min", -float('inf'))
-                    temp_max = prefs.get("temperature", {}).get("max", float('inf'))
-                    humid_min = prefs.get("humidity", {}).get("min", -float('inf'))
-                    humid_max = prefs.get("humidity", {}).get("max", float('inf'))
-                    temp = weather.get("temp", float('inf'))
-                    humidity = weather.get("humidity", float('inf'))
-                    prompt = (
-                        f"Weather in {self.last_location}: {weather}\n"
-                        f"RAG: {self.last_crop}\n"
-                        f"Chatbot: Explain in exactly 5 short sentences why {self.last_crop} suits or doesn't suit "
-                        f"{self.last_location}'s weather (temp: {temp}°C, humidity: {humidity}%), "
-                        f"using its preferences (temp: {temp_min}-{temp_max}°C, humidity: {humid_min}-{humid_max}%)."
-                    )
-                    try:
-                        model_response = self.cached_model_infer(prompt)
-                        response = f"Weather: {weather}\nRAG: {self.last_crop}\nModel: {model_response}"
-                        self.set_last_response(query, weather, self.last_crop, model_response)
-                        return response
-                    except ConnectionError:
-                        return "Error: Ollama server is not running. Please start it with 'ollama serve'."
-            return f"Model: I don't have enough data on {self.last_crop} to explain why."
-
-        # Handle "how to" queries
-        if re.search(r"how to\s*(use|plant|grow)\s*it", query) and self.last_crop:
-            location = self.last_location or new_location
-            if location:
-                weather = self.update_weather_data(location)
-                if "error" in weather:
-                    return f"Error: {weather['error']}"
+        # Step 3: Check for "why" with previous context
+        if re.search(r"\bwhy\b", query) and self.last_response:
+            last_query = self.last_response["query"]
+            weather = self.last_response["weather"]
+            rag_response = self.last_response["rag"]
+            last_model_response = self.last_response["model"]
+            
+            if self.last_crop and weather:  # Crop-specific "why"
+                for crop_data in self.rag.data.values():
+                    if crop_data["name"].lower() == self.last_crop.lower():
+                        prefs = crop_data.get("weather_preferences", {})
+                        temp_min = prefs.get("temperature", {}).get("min", -float('inf'))
+                        temp_max = prefs.get("temperature", {}).get("max", float('inf'))
+                        humid_min = prefs.get("humidity", {}).get("min", -float('inf'))
+                        humid_max = prefs.get("humidity", {}).get("max", float('inf'))
+                        temp = weather.get("temp", float('inf'))
+                        humidity = weather.get("humidity", float('inf'))
+                        prompt = (
+                            f"Previous query: {last_query}\n"
+                            f"Weather in {self.last_location}: {weather}\n"
+                            f"RAG: {self.last_crop}\n"
+                            f"Chatbot: Explain in exactly 5 short sentences why {self.last_crop} suits or doesn't suit "
+                            f"{self.last_location}'s weather (temp: {temp}°C, humidity: {humidity}%), "
+                            f"using its preferences (temp: {temp_min}-{temp_max}°C, humidity: {humid_min}-{humid_max}%)."
+                        )
+                        try:
+                            model_response = self.cached_model_infer(prompt)
+                            response = f"Weather: {weather}\nRAG: {self.last_crop}\nModel: {model_response}"
+                            self.set_last_response(query, weather, self.last_crop, model_response)
+                            return response
+                        except ValueError as e:
+                            return f"Error: {str(e)}"
+                        except ConnectionError:
+                            return "Error: Unable to connect to the model server. Please check if Ollama is running."
+                return f"Model: I don't have enough data on {self.last_crop} to explain why."
+            else:  # General "why" based on previous response
                 prompt = (
-                    f"Weather in {location}: {weather}\n"
-                    f"RAG: {self.last_crop}\n"
-                    f"Chatbot: Explain how to plant {self.last_crop} in {location}'s weather in exactly 5 short sentences."
+                    f"Previous query: {last_query}\n"
+                    f"Previous response: {last_model_response}\n"
+                    f"Chatbot: Explain in exactly 5 short sentences why the previous response applies to '{last_query}'."
                 )
                 try:
                     model_response = self.cached_model_infer(prompt)
-                    response = f"Weather: {weather}\nRAG: {self.last_crop}\nModel: {model_response}"
-                    self.set_last_response(query, weather, self.last_crop, model_response)
-                    return response
-                except ConnectionError:
-                    return "Error: Ollama server is not running. Please start it with 'ollama serve'."
-            return f"Model: Please specify a location to explain how to plant {self.last_crop}."
-
-        # Handle "what else" queries
-        if re.search(r"what\s*(else)?\s*crop(s)?\s*(can|to)?\s*(be)?\s*used", query):
-            location = new_location or self.last_location
-            if location:
-                try:
-                    weather = self.update_weather_data(location)
-                except Exception as e:
-                    return f"Error fetching weather: {str(e)}"
-                if "error" in weather:
-                    return f"Error: {weather['error']}"
-                weather_str = json.dumps(weather, sort_keys=True)
-                rag_response = self.cached_rag_retrieve(f"best crop for {location}", weather_str)
-                if isinstance(rag_response, list) and rag_response:
-                    best_crop = rag_response[0]
-                    self.last_crop = best_crop
-                    prompt = (
-                        f"Weather in {location}: {weather}\n"
-                        f"RAG: {rag_response}\n"
-                        f"Chatbot: Suggest {best_crop} as a suitable crop for {location}'s weather in exactly 5 short sentences "
-                        f"based on weather comparison."
-                    )
-                else:
-                    prompt = (
-                        f"Weather in {location}: {weather}\n"
-                        f"RAG: {rag_response}\n"
-                        f"Chatbot: Suggest a suitable crop for {location}'s weather in exactly 5 short sentences based on weather data, "
-                        f"noting no RAG match."
-                    )
-                try:
-                    model_response = self.cached_model_infer(prompt)
-                    response = f"Weather: {weather}\nRAG: {rag_response}\nModel: {model_response}"
+                    response = f"Model: {model_response}"
                     self.set_last_response(query, weather, rag_response, model_response)
                     return response
+                except ValueError as e:
+                    return f"Error: {str(e)}"
                 except ConnectionError:
-                    return "Error: Ollama server is not running. Please start it with 'ollama serve'."
-            return f"Model: Please specify a location to suggest a crop."
+                    return "Error: Unable to connect to the model server. Please check if Ollama is running."
 
-        # Handle specific crop and location queries
-        crop_match = re.search(r"(?:can |if |is )?(\w+)\s*(?:be used in|better for|good in|suitable for|for)\s*(\w+)", query)
-        if not crop_match:
-            for crop_name in [c["name"].lower() for c in self.rag.data.values() if c["category"] == "crops"]:
-                if crop_name in query:
-                    crop = crop_name.capitalize()
-                    location = new_location
-                    break
-            else:
-                crop = None
-                location = new_location
-        else:
-            crop = crop_match.group(1)
-            location = new_location or crop_match.group(2)
-
-        if crop and location:
-            try:
-                weather = self.update_weather_data(location)
-            except Exception as e:
-                return f"Error fetching weather: {str(e)}"
-            if "error" in weather:
-                return f"Error: {weather['error']}"
-            for crop_data in self.rag.data.values():
-                if crop_data["category"] == "crops" and crop_data["name"].lower() == crop.lower():
-                    self.last_crop = crop_data["name"]
-                    self.last_location = location
-                    prefs = crop_data.get("weather_preferences", {})
-                    temp_min = prefs.get("temperature", {}).get("min", -float('inf'))
-                    temp_max = prefs.get("temperature", {}).get("max", float('inf'))
-                    humid_min = prefs.get("humidity", {}).get("min", -float('inf'))
-                    humid_max = prefs.get("humidity", {}).get("max", float('inf'))
-                    temp = weather.get("temp", float('inf'))
-                    humidity = weather.get("humidity", float('inf'))
-                    temp_suitable = temp_min <= temp <= temp_max
-                    humid_suitable = humid_min <= humidity <= humid_max
-                    if temp_suitable and humid_suitable:
-                        response = (
-                            f"{crop} suits {location}'s weather well. "
-                            f"Its ideal temperature range is {temp_min}-{temp_max}°C. "
-                            f"Its humidity range is {humid_min}-{humid_max}%. "
-                            f"Current conditions ({temp}°C, {humidity}%) match perfectly. "
-                            f"It's a good choice for planting now."
-                        )
-                    elif temp_suitable:
-                        response = (
-                            f"{crop} may work in {location}. "
-                            f"Its temperature range ({temp_min}-{temp_max}°C) fits {temp}°C. "
-                            f"However, humidity ({humidity}%) is below {humid_min}%. "
-                            f"Low humidity might stress the crop. "
-                            f"Consider irrigation to boost moisture."
-                        )
-                    elif humid_suitable:
-                        response = (
-                            f"{crop} may not thrive in {location}. "
-                            f"Its humidity range ({humid_min}-{humid_max}%) fits {humidity}%. "
-                            f"But {temp}°C is outside {temp_min}-{temp_max}°C. "
-                            f"Temperature mismatch could affect growth. "
-                            f"Consider alternatives for better yield."
-                        )
-                    else:
-                        response = (
-                            f"{crop} isn't ideal for {location}. "
-                            f"Its temperature range is {temp_min}-{temp_max}°C, not {temp}°C. "
-                            f"Its humidity range is {humid_min}-{humid_max}%, not {humidity}%. "
-                            f"These conditions don't match well. "
-                            f"Look for other crops instead."
-                        )
-                    full_response = f"Weather: {weather}\nRAG: {crop}\nModel: {response}"
-                    self.set_last_response(query, weather, crop, response)
-                    return full_response
-            response = f"Weather: {weather}\nRAG: No specific data found\nModel: {crop} is not in our database."
-            self.set_last_response(query, weather, "No specific data found", f"{crop} is not in our database.")
-            return response
-
-        # Default response when no location is found
+        # Step 4: General query if no location
         if not location:
-            prompt = f"Chatbot: Respond to '{query}' as an agricultural bot in exactly 5 short sentences, no weather or RAG."
+            prompt = f"Chatbot: Respond to '{original_query}' as an agricultural bot in exactly 5 short sentences, no weather or RAG."
             try:
                 model_response = self.cached_model_infer(prompt)
                 response = f"Model: {model_response}"
                 self.set_last_response(query, None, None, model_response)
                 return response
+            except ValueError as e:
+                return f"Error: {str(e)}"  # E.g., "Model 'llama3' not found on Ollama server."
             except ConnectionError:
-                return "Error: Ollama server is not running. Please start it with 'ollama serve'."
+                return "Error: Unable to connect to the model server. Please check if Ollama is running."
+            except Exception as e:
+                return f"Error: Unexpected issue with model inference: {str(e)}"
 
-        # Process query with location
+        # Location-based catch-all (if location but no crop or specific pattern)
         try:
             weather = self.update_weather_data(location)
+            if "error" in weather:
+                return f"Error fetching weather for {location}: {weather['error']}"
+            weather_str = json.dumps(weather, sort_keys=True)
+            rag_response = self.cached_rag_retrieve(query, weather_str)
+            if isinstance(rag_response, list) and rag_response:
+                best_crop = rag_response[0]
+                self.last_crop = best_crop
+                prompt = (
+                    f"Weather in {location}: {weather}\n"
+                    f"RAG: {rag_response}\n"
+                    f"Chatbot: Suggest {best_crop} as the best crop for {location}'s weather in exactly 5 short sentences "
+                    f"based on weather comparison."
+                )
+            else:
+                prompt = (
+                    f"Weather in {location}: {weather}\n"
+                    f"RAG: {rag_response}\n"
+                    f"Chatbot: Suggest a suitable crop for {location}'s weather in exactly 5 short sentences based on weather data, "
+                    f"noting no RAG match."
+                )
+            try:
+                model_response = self.cached_model_infer(prompt)
+                response = f"Weather: {weather}\nRAG: {rag_response}\nModel: {model_response}"
+                self.set_last_response(query, weather, rag_response, model_response)
+                return response
+            except ValueError as e:
+                return f"Error: {str(e)}"
+            except ConnectionError:
+                return "Error: Unable to connect to the model server. Please check if Ollama is running."
         except Exception as e:
             return f"Error fetching weather: {str(e)}"
-        if "error" in weather:
-            return f"Error fetching weather for {location}: {weather['error']}"
-        weather_str = json.dumps(weather, sort_keys=True)
-        rag_response = self.cached_rag_retrieve(query, weather_str)
-        if isinstance(rag_response, list) and rag_response:
-            best_crop = rag_response[0]
-            self.last_crop = best_crop
-            prompt = (
-                f"Weather in {location}: {weather}\n"
-                f"RAG: {rag_response}\n"
-                f"Chatbot: Suggest {best_crop} as the best crop for {location}'s weather in exactly 5 short sentences "
-                f"based on weather comparison."
-            )
-        else:
-            prompt = (
-                f"Weather in {location}: {weather}\n"
-                f"RAG: {rag_response}\n"
-                f"Chatbot: Suggest a suitable crop for {location}'s weather in exactly 5 short sentences based on weather data, "
-                f"noting no RAG match."
-            )
-        try:
-            model_response = self.cached_model_infer(prompt)
-            response = f"Weather: {weather}\nRAG: {rag_response}\nModel: {model_response}"
-            self.set_last_response(query, weather, rag_response, model_response)
-            return response
-        except ConnectionError:
-            return "Error: Ollama server is not running. Please start it with 'ollama serve'."
-
     def handle_crop_suggestion(self, location, query):
         """Handle crop suggestion queries for a specific location."""
         if not location:

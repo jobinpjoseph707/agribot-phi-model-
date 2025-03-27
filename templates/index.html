@@ -8,77 +8,59 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+    :root {
+      --primary-color: #2e7d32;
+      --secondary-color: #66bb6a;
+      --background-light: #f0f4f8;
+      --text-color: #333;
+      --white: #ffffff;
+      --red: #d32f2f;
+      --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
 
-    body {
-      font-family: 'Roboto', sans-serif;
+    * {
       margin: 0;
       padding: 0;
-      background-color: #f0f4f8;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      line-height: 1.6;
+      background-color: var(--background-light);
+      color: var(--text-color);
       display: flex;
-      flex-direction: column;
-      height: 100vh;
+      flex-direction: column;     
+      min-height: 100vh;
       overflow: hidden;
     }
 
-    /* Header */
-    .header {
-      background: linear-gradient(90deg, #2e7d32, #66bb6a);
-      color: white;
-      padding: 15px 20px;
-      text-align: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 1.8em;
-      font-weight: 500;
-    }
-
-    .logout-btn {
-      background: #d32f2f;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .logout-btn:hover {
-      background: #b71c1c;
-      transform: translateY(-2px);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-
-    /* Login Form */
     .login-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      background: linear-gradient(135deg, #e8f5e9, #ffffff);
+      flex-grow: 1;
+      background-repeat: round;
+      background-image: url("https://img.freepik.com/free-photo/sunny-meadow-landscape_1112-134.jpg?t=st=1742930663~exp=1742934263~hmac=2889a791c73bb7b43d7f1f3997fa3487ae6a0efd0fe3ba111f0985c7bad315ad&w=1380");
+      padding: 20px;
     }
 
     .login-form {
-      background: #fff;
+      background: var(--white);
       padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      box-shadow: var(--box-shadow);
       width: 100%;
       max-width: 400px;
       text-align: center;
     }
 
     .login-form h2 {
-      margin: 0 0 20px;
-      color: #333;
-      font-weight: 500;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+      font-weight: 600;
     }
 
     .login-form input {
@@ -86,303 +68,353 @@
       padding: 12px;
       margin: 10px 0;
       border: 1px solid #ddd;
-      border-radius: 5px;
-      transition: all 0.3s ease;
-    }
-
-    .login-form input:focus {
-      outline: none;
-      border-color: #2e7d32;
-      box-shadow: 0 0 5px rgba(46, 125, 50, 0.3);
+      border-radius: 6px;
+      font-size: 16px;
     }
 
     .login-form button {
       width: 100%;
       padding: 12px;
-      background: linear-gradient(90deg, #2e7d32, #66bb6a);
-      color: white;
+      background-color: var(--primary-color);
+      color: var(--white);
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      font-weight: 500;
-    }
-
-    .login-form button:hover {
-      background: linear-gradient(90deg, #27632a, #5cb85c);
-      transform: translateY(-2px);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-
-    .login-error {
-      color: #d32f2f;
-      font-size: 0.9em;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
       margin-top: 10px;
     }
 
-    /* Main Layout */
+    .login-form button:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .login-error {
+      color: var(--red);
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .header {
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      color: var(--white);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--box-shadow);
+    }
+
+    .header h1 {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+
+    .logout-btn {
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background: #b71c1c;
+    }
+
     .main-container {
       display: none;
       flex: 1;
-      overflow: hidden;
-      background: #f0f4f8;
-      flex-direction: row;
+      background: var(--background-light);
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      overflow: hidden; 
     }
 
     .chat-container {
-      flex: 1;
-      padding: 20px;
-      background: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      flex: 2;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--box-shadow);
       display: flex;
       flex-direction: column;
-      margin: 20px;
+      overflow: hidden;
+    }
+
+    #chatHistory {
+      flex: 1;
+      max-height: 30em;
+      overflow-y: scroll;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary-color) #f1f1f1;
+    }
+
+    #chatHistory::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #chatHistory::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    #chatHistory::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color);
+      border-radius: 4px;
+    }
+
+    .chat-container form {
+      flex-shrink: 0;
     }
 
     .weather-container {
-      width: 30%;
-      background: #f9f9f9;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      margin: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .weather-container h3 {
-      margin: 0;
-      color: #333;
-      font-size: 1.2em;
-      font-weight: 500;
-    }
-
-    #weatherInfo {
-      font-size: 1em;
-      color: #555;
-      background: #fff;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-    }
-
-    #weatherInfo:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-
-    .weather-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 5px 0;
-    }
-
-    .weather-item span {
-      font-weight: 500;
-    }
-
-    /* Chat History */
-    #chatHistory {
       flex: 1;
-      overflow-y: auto;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--box-shadow);
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      padding: 10px;
+      gap: 15px;
+      overflow-y: auto;
+      max-height: calc(100vh - 140px);
+    }
+
+    /* Enhanced Weather Card Styles */
+    .weather-card {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-radius: 20px;
+      box-shadow: 0 15px 25px rgba(0,0,0,0.1), 0 10px 10px rgba(0,0,0,0.05);
+      padding: 25px;
+      text-align: center;
+      max-width: 350px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .weather-card:hover {
+      transform: scale(1.05);
+    }
+
+    .weather-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, transparent 70%);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .weather-card .weather-icon {
+      font-size: 5rem;
+      margin-bottom: 15px;
+      text-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .weather-card .weather-location {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .weather-card .weather-condition {
+      font-size: 1.2rem;
+      color: #555;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .weather-card .weather-details {
+      display: flex;
+      justify-content: space-between;
+      background-color: rgba(255,255,255,0.7);
+      border-radius: 15px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .weather-card .weather-detail {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .weather-card .detail-icon {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+    }
+
+    .weather-card .detail-label {
+      font-size: 0.9rem;
+      color: #666;
+      text-transform: uppercase;
+    }
+
+    .weather-card .detail-value {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    .weather-card .weather-advice {
+      margin-top: 15px;
+      font-style: italic;
+      color: #666;
     }
 
     .chat-bubble {
-      margin-bottom: 15px;
-      padding: 12px 18px;
-      border-radius: 15px;
-      max-width: 70%;
+      max-width: 80%;
+      padding: 15px;
+      border-radius: 12px;
       position: relative;
-      animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      line-height: 1.5;
     }
 
     .user {
-      background: linear-gradient(135deg, #dcedc8, #c5e1a5);
+      background-color: var(--primary-color);
+      color: var(--white);
       align-self: flex-end;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-left: auto;
     }
 
     .bot {
-      background: linear-gradient(135deg, #ffffff, #f5f5f5);
-      border: 1px solid #ddd;
+      background-color: #f0f0f0;
       align-self: flex-start;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-right: auto;
     }
 
     .timestamp {
-      font-size: 0.8em;
-      color: #999;
+      font-size: 10px;
+      color: rgba(0,0,0,0.5);
       margin-top: 5px;
       text-align: right;
     }
 
-    .bot .timestamp {
-      text-align: left;
+    .user .timestamp {
+      color: rgba(255,255,255,0.7);
     }
 
-    .greeting {
-      font-size: 1.2em;
-      margin-bottom: 20px;
-      color: #333;
-      text-align: center;
-      background: #fff;
-      padding: 10px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    #loadingIndicator {
-      display: none;
-      margin-top: 20px;
-      font-style: italic;
-      color: #555;
-      text-align: center;
-    }
-
-    /* Input Form */
     #chatForm {
       display: flex;
-      margin-top: 20px;
-      background: #fff;
-      padding: 10px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 20px;
+      background: var(--white);
+      border-top: 1px solid #e0e0e0;
     }
 
     #queryInput {
       flex: 1;
-      padding: 10px;
+      padding: 12px;
       border: 1px solid #ddd;
-      border-radius: 5px;
-      transition: all 0.3s ease;
-    }
-
-    #queryInput:focus {
-      outline: none;
-      border-color: #2e7d32;
-      box-shadow: 0 0 5px rgba(46, 125, 50, 0.3);
+      border-radius: 6px;
+      margin-right: 10px;
+      font-size: 16px;
     }
 
     #chatForm button {
-      padding: 10px 20px;
-      margin-left: 10px;
-      background: linear-gradient(90deg, #2e7d32, #66bb6a);
-      color: white;
+      padding: 12px 20px;
+      background-color: var(--primary-color);
+      color: var(--white);
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      font-weight: 500;
+      transition: background-color 0.3s ease;
     }
 
     #chatForm button:hover {
-      background: linear-gradient(90deg, #27632a, #5cb85c);
-      transform: translateY(-2px);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      background-color: var(--secondary-color);
     }
 
-    #chatForm button:disabled {
-      background: #cccccc;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
+    #loadingIndicator {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      font-style: italic;
+      color: var(--primary-color);
+      align-self: center;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
       .main-container {
         flex-direction: column;
       }
-      .weather-container {
+
+      .chat-container, .weather-container {
+        flex: none;
         width: 100%;
-        margin: 10px 0;
+        max-height: 50vh;
       }
-      .chat-container {
-        margin: 10px 0;
+
+      .weather-card {
+        max-width: 100%;
+        margin: 0 10px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Login Form -->
+  <!-- Login Container -->
   <div class="login-container" id="authContainer">
     <form class="login-form" id="loginForm">
-      <h2>🌱 Agribot Login</h2>
-      <div class="form-group">
-        <label for="loginEmail">Email:</label>
-        <input type="email" id="loginEmail" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="loginPassword">Password:</label>
-        <input type="password" id="loginPassword" name="password" required>
-      </div>
-      <button class="form-button" type="submit">Login</button>
-      <a href="#" class="forgot-password-link" id="forgotPasswordLink">Forgot Password?</a>
-      <div class="form-group">
-        <button class="form-button" type="button" id="showSignupForm">Sign Up</button>
-      </div>
+      <h2>Agribot Login</h2>
+      <input type="email" id="loginEmail" placeholder="Email" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button type="submit">Login</button>
       <div class="login-error" id="loginError"></div>
+      <p>
+        <a href="#" id="forgotPasswordLink" style="color: var(--primary-color); text-decoration: none;">Forgot Password?</a>
+      </p>
+      <button type="button" id="showSignupForm">Sign Up</button>
     </form>
 
     <form class="login-form" id="signupForm" style="display: none;">
-      <h2>🌱 Agribot Sign Up</h2>
-      <div class="form-group">
-        <label for="signupEmail">Email:</label>
-        <input type="email" id="signupEmail" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="signupPassword">Password:</label>
-        <input type="password" id="signupPassword" name="password" required>
-      </div>
-      <button class="form-button" type="submit">Sign Up</button>
-      <div class="form-group">
-        <button class="form-button" type="button" id="showLoginForm">Login</button>
-      </div>
+      <h2>Agribot Sign Up</h2>
+      <input type="email" id="signupEmail" placeholder="Email" required>
+      <input type="password" id="signupPassword" placeholder="Password" required>
+      <button type="submit">Sign Up</button>
       <div class="login-error" id="signupError"></div>
+      <button type="button" id="showLoginForm">Back to Login</button>
     </form>
 
     <form class="login-form" id="forgotPasswordForm" style="display: none;">
-      <h2>🌱 Forgot Password</h2>
-      <div class="form-group">
-        <label for="forgotPasswordEmail">Email:</label>
-        <input type="email" id="forgotPasswordEmail" name="email" required>
-      </div>
-      <button class="form-button" type="submit">Reset Password</button>
-      <div class="form-group">
-        <button class="form-button" type="button" id="showLoginFormFromForgot">Login</button>
-      </div>
+      <h2>Forgot Password</h2>
+      <input type="email" id="forgotPasswordEmail" placeholder="Email" required>
+      <button type="submit">Reset Password</button>
       <div class="login-error" id="forgotPasswordError"></div>
+      <button type="button" id="showLoginFormFromForgot">Back to Login</button>
     </form>
   </div>
 
   <!-- Header -->
   <div class="header" id="chatHeader" style="display: none;">
-    <h1>🌱 Agribot</h1>
+    <h1>🌾 Agribot</h1>
     <button class="logout-btn" id="logoutBtn">Logout</button>
   </div>
 
-  <!-- Main Layout -->
+  <!-- Main Container -->
   <div class="main-container" id="mainContainer">
     <div class="chat-container">
-      <div class="greeting">Welcome to Agribot! Ask me about agriculture, weather in Indian states, or get farming tips.</div>
+      <div id="chatHistory">
+      </div>
+      <div id="loadingIndicator">Agent is thinking...</div>
       <form id="chatForm">
-        <input type="text" id="queryInput" placeholder="Type your message here..." required>
+        <input type="text" id="queryInput" placeholder="Type your message..." required>
         <button type="submit">Send</button>
       </form>
-      <div id="loadingIndicator">Agent is thinking...</div>
-      <div id="chatHistory"></div>
     </div>
     <div class="weather-container">
       <h3>Weather Info</h3>
@@ -393,32 +425,29 @@
   <script>
     // Firebase Configuration
     const firebaseConfig = {
-    apiKey: "AIzaSyCr80D5aQCeWVIUafq9dWkoCRN__FSjwWo",
-    authDomain: "agribot-55bba.firebaseapp.com",
-    projectId: "agribot-55bba",
-    storageBucket: "agribot-55bba.firebasestorage.app",
-    messagingSenderId: "1058380199132",
-    appId: "1:1058380199132:web:4c4aae2a2222d29a547019",
-    measurementId: "G-YFEW1L3NJ3"
-  };
-    // Initialize Firebase
+      apiKey: "AIzaSyCr80D5aQCeWVIUafq9dWkoCRN__FSjwWo",
+      authDomain: "agribot-55bba.firebaseapp.com",
+      projectId: "agribot-55bba",
+      storageBucket: "agribot-55bba.firebasestorage.app",
+      messagingSenderId: "1058380199132",
+      appId: "1:1058380199132:web:4c4aae2a2222d29a547019",
+      measurementId: "G-YFEW1L3NJ3"
+    };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // Elements
+    // Get all necessary elements
     const authContainer = document.getElementById('authContainer');
     const chatHeader = document.getElementById('chatHeader');
     const mainContainer = document.getElementById('mainContainer');
     const loginForm = document.getElementById('loginForm');
     const signupForm = document.getElementById('signupForm');
     const forgotPasswordForm = document.getElementById('forgotPasswordForm');
-    const showSignupFormButton = document.getElementById('showSignupForm');
-    const showLoginFormButton = document.getElementById('showLoginForm');
-    const forgotPasswordLink = document.getElementById('forgotPasswordLink');
-    const showLoginFormFromForgotButton = document.getElementById('showLoginFormFromForgot');
-    const logoutBtn = document.getElementById('logoutBtn');
+    const loginError = document.getElementById('loginError');
+    const signupError = document.getElementById('signupError');
+    const forgotPasswordError = document.getElementById('forgotPasswordError');
 
-    // Show Login Form
+    // Form Navigation Functions
     function showLoginForm() {
       authContainer.style.display = 'flex';
       chatHeader.style.display = 'none';
@@ -426,36 +455,37 @@
       loginForm.style.display = 'block';
       signupForm.style.display = 'none';
       forgotPasswordForm.style.display = 'none';
+      
+      // Clear chat history and weather info
       document.getElementById('chatHistory').innerHTML = '';
-      document.getElementById('weatherInfo').textContent = 'No weather data available.';
+      document.getElementById('weatherInfo').innerHTML = 'No weather data available.';
     }
 
-    // Show Chat Interface
     function showChatInterface() {
       authContainer.style.display = 'none';
       chatHeader.style.display = 'flex';
       mainContainer.style.display = 'flex';
     }
 
-    // Event Listeners for form navigation
-    showLoginFormButton.addEventListener('click', () => {
-      signupForm.style.display = 'none';
-      loginForm.style.display = 'block';
-    });
-
-    showSignupFormButton.addEventListener('click', () => {
+    // Event Listeners for Form Navigation
+    document.getElementById('showSignupForm').addEventListener('click', () => {
       loginForm.style.display = 'none';
       signupForm.style.display = 'block';
     });
 
-    forgotPasswordLink.addEventListener('click', () => {
+    document.getElementById('showLoginForm').addEventListener('click', () => {
+      loginForm.style.display = 'block';
+      signupForm.style.display = 'none';
+    });
+
+    document.getElementById('forgotPasswordLink').addEventListener('click', () => {
       loginForm.style.display = 'none';
       forgotPasswordForm.style.display = 'block';
     });
 
-    showLoginFormFromForgotButton.addEventListener('click', () => {
-      forgotPasswordForm.style.display = 'none';
+    document.getElementById('showLoginFormFromForgot').addEventListener('click', () => {
       loginForm.style.display = 'block';
+      forgotPasswordForm.style.display = 'none';
     });
 
     // Login Submission
@@ -463,15 +493,13 @@
       e.preventDefault();
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
-      const loginError = document.getElementById('loginError');
       loginError.textContent = '';
+
       try {
         await auth.signInWithEmailAndPassword(email, password);
-        console.log('User logged in successfully');
         showChatInterface();
       } catch (error) {
-        console.error('Login error:', error.message);
-        loginError.textContent = 'Invalid email or password.';
+        loginError.textContent = error.message;
       }
     });
 
@@ -480,15 +508,13 @@
       e.preventDefault();
       const email = document.getElementById('signupEmail').value;
       const password = document.getElementById('signupPassword').value;
-      const signupError = document.getElementById('signupError');
       signupError.textContent = '';
+
       try {
         await auth.createUserWithEmailAndPassword(email, password);
-        console.log('User registered successfully');
         loginForm.style.display = 'block';
         signupForm.style.display = 'none';
       } catch (error) {
-        console.error('Signup error:', error.message);
         signupError.textContent = error.message;
       }
     });
@@ -497,16 +523,14 @@
     forgotPasswordForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('forgotPasswordEmail').value;
-      const forgotPasswordError = document.getElementById('forgotPasswordError');
       forgotPasswordError.textContent = '';
+
       try {
         await auth.sendPasswordResetEmail(email);
-        console.log('Password reset email sent');
         forgotPasswordForm.style.display = 'none';
         loginForm.style.display = 'block';
         forgotPasswordError.textContent = 'Password reset email sent';
       } catch (error) {
-        console.error('Password reset error:', error.message);
         forgotPasswordError.textContent = error.message;
       }
     });
@@ -514,32 +538,127 @@
     // Authentication State Listener
     auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log('User is signed in');
         showChatInterface();
       } else {
-        console.log('User is signed out');
         showLoginForm();
       }
     });
 
     // Logout Handler
-    logoutBtn.addEventListener('click', () => {
-      auth.signOut().then(() => {
-        console.log('User signed out successfully.');
-        showLoginForm();
-      }).catch((error) => {
-        console.error('Error signing out:', error);
-      });
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      auth.signOut();
     });
+
+// Advanced Weather Emoji and Icon Function
+function getWeatherDetails(description) {
+      const lowerDesc = description.toLowerCase();
+      const weatherIcons = {
+        'clear': { 
+          emoji: '☀️', 
+          icon: 'sun', 
+          color: '#FFD700',
+          details: {
+            description: 'Clear Skies',
+            advice: 'Perfect day for outdoor activities!'
+          }
+        },
+        'cloud': { 
+          emoji: '☁️', 
+          icon: 'cloud', 
+          color: '#A9A9A9',
+          details: {
+            description: 'Cloudy',
+            advice: 'Might need a light jacket'
+          }
+        },
+        'rain': { 
+          emoji: '🌧️', 
+          icon: 'cloud-rain', 
+          color: '#4682B4',
+          details: {
+            description: 'Rainy',
+            advice: 'Don\'t forget your umbrella!'
+          }
+        },
+        'drizzle': { 
+          emoji: '🌦️', 
+          icon: 'cloud-drizzle', 
+          color: '#87CEEB',
+          details: {
+            description: 'Light Rain',
+            advice: 'Light rain expected'
+          }
+        },
+        'thunderstorm': { 
+          emoji: '⛈️', 
+          icon: 'cloud-lightning', 
+          color: '#483D8B',
+          details: {
+            description: 'Thunderstorm',
+            advice: 'Stay indoors and stay safe!'
+          }
+        },
+        'snow': { 
+          emoji: '❄️', 
+          icon: 'cloud-snow', 
+          color: '#F0F8FF',
+          details: {
+            description: 'Snowy',
+            advice: 'Bundle up and stay warm!'
+          }
+        },
+        'mist': { 
+          emoji: '🌫️', 
+          icon: 'cloud-fog', 
+          color: '#708090',
+          details: {
+            description: 'Misty',
+            advice: 'Reduced visibility, drive carefully'
+          }
+        }
+      };
+
+      for (const [key, weatherData] of Object.entries(weatherIcons)) {
+        if (lowerDesc.includes(key)) return weatherData;
+      }
+
+      // Default weather
+      return { 
+        emoji: '🌤️', 
+        icon: 'sun', 
+        color: '#FFA500',
+        details: {
+          description: 'Mild Weather',
+          advice: 'Enjoy the day!'
+        }
+      };
+    }
+
+    // Extract Location from Query or Response
+    function extractLocation(query, response) {
+      const indianStates = [
+        "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
+        "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala",
+        "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland",
+        "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
+        "Uttar Pradesh", "Uttarakhand", "West Bengal", "Delhi"
+      ];
+      const queryLower = query.toLowerCase();
+      const responseLower = response.toLowerCase();
+      for (const state of indianStates) {
+        if (queryLower.includes(state.toLowerCase()) || responseLower.includes(state.toLowerCase())) {
+          return state;
+        }
+      }
+      return null;
+    }
+
     // Chat Form Submission
     document.getElementById('chatForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const queryInput = document.getElementById('queryInput');
       const query = queryInput.value;
       queryInput.value = '';
-
-      // Log the user's query to the console
-      console.log("User Query:", query);
 
       const chatHistory = document.getElementById('chatHistory');
       const userTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -549,22 +668,23 @@
           <div class="timestamp">${userTimestamp}</div>
         </div>`;
       chatHistory.scrollTop = chatHistory.scrollHeight;
+
       queryInput.disabled = true;
-      const startTime = performance.now(); // Start timing
       const sendButton = document.querySelector('#chatForm button');
       sendButton.disabled = true;
       const loadingIndicator = document.getElementById('loadingIndicator');
       loadingIndicator.style.display = 'block';
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+
       try {
+        const startTime = performance.now();
         const response = await fetch('/api/query', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams({ query: query })
         });
         const data = await response.json();
-
-        // Log the raw API response to the console
-        console.log("API Response:", data);
+        loadingIndicator.style.display = 'none';
 
         const botTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         chatHistory.innerHTML += `
@@ -573,24 +693,42 @@
             <div class="timestamp">${botTimestamp}</div>
           </div>`;
         chatHistory.scrollTop = chatHistory.scrollHeight;
+
         if (data.weather) {
           const weather = JSON.parse(data.weather.replace(/'/g, '"'));
-          console.log(weather);
-          console.log(weather.temp);
-          console.log(weather.weather);
-
-          
-          const weatherText = `
-            <div class="weather-item">🌤️ <span>Condition:</span> ${weather.weather}</div>
-            <div class="weather-item">🌡️ <span>Temperature:</span> ${weather.temp}°C</div>
-            <div class="weather-item">💧 <span>Humidity:</span> ${weather.humidity}%</div>
+          const location = extractLocation(query, data.response) || 'Unknown Location';
+          const weatherDetails = getWeatherDetails(weather.weather);
+          const weatherCard = `
+            <div class="weather-card">
+              <div class="weather-icon" style="color: ${weatherDetails.color}">${weatherDetails.emoji}</div>
+              <div class="weather-location">${location}</div>
+              <div class="weather-condition">${weatherDetails.details.description}</div>
+              <div class="weather-details">
+                <div class="weather-detail">
+                  <div class="detail-icon">🌡️</div>
+                  <div class="detail-label">Temperature</div>
+                  <div class="detail-value">${weather.temp}°C</div>
+                </div>
+                <div class="weather-detail">
+                  <div class="detail-icon">💧</div>
+                  <div class="detail-label">Humidity</div>
+                  <div class="detail-value">${weather.humidity}%</div>
+                </div>
+              </div>
+              <div class="weather-advice" style="margin-top: 15px; font-style: italic; color: #666;">
+                ${weatherDetails.details.advice}
+              </div>
+            </div>
           `;
-          document.getElementById('weatherInfo').innerHTML = weatherText;
-        } else {
-          document.getElementById('weatherInfo').textContent = "No weather data available.";
+          document.getElementById('weatherInfo').innerHTML = weatherCard;
         }
+
+        const endTime = performance.now();
+        console.log(`Query took ${endTime - startTime} milliseconds`);
       } catch (error) {
         console.error("API call failed:", error);
+        loadingIndicator.style.display = 'none';
+
         const botTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         chatHistory.innerHTML += `
           <div class="chat-bubble bot">
@@ -598,81 +736,12 @@
             <div class="timestamp">${botTimestamp}</div>
           </div>`;
         chatHistory.scrollTop = chatHistory.scrollHeight;
-        document.getElementById('weatherInfo').textContent = "No weather data available.";
       } finally {
         queryInput.disabled = false;
         sendButton.disabled = false;
         loadingIndicator.style.display = 'none';
-        const endTime = performance.now(); // End timing
-        const elapsedTime = endTime - startTime;
-        console.log(`Query took ${elapsedTime} milliseconds`);
       }
     });
-
-
-    // // Chat Form Submission
-    // document.getElementById('chatForm').addEventListener('submit', async (e) => {
-    //   e.preventDefault();
-    //   const queryInput = document.getElementById('queryInput');
-    //   const query = queryInput.value;
-    //   queryInput.value = '';
-    //   const chatHistory = document.getElementById('chatHistory');
-    //   const userTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    //   chatHistory.innerHTML += `
-    //     <div class="chat-bubble user">
-    //       <strong>You:</strong> ${query}
-    //       <div class="timestamp">${userTimestamp}</div>
-    //     </div>`;
-    //   chatHistory.scrollTop = chatHistory.scrollHeight;
-    //   queryInput.disabled = true;
-    //   const sendButton = document.querySelector('#chatForm button');
-    //   sendButton.disabled = true;
-    //   const loadingIndicator = document.getElementById('loadingIndicator');
-    //   loadingIndicator.style.display = 'block';
-    //   try {
-    //     const response = await fetch('/api/query', {
-    //       method: 'POST',
-    //       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    //       body: new URLSearchParams({ query: query })
-    //     });
-    //     const data = await response.json();
-    //     const botTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    //     chatHistory.innerHTML += `
-    //       <div class="chat-bubble bot">
-    //         <strong>Agribot:</strong> ${data.response}
-    //         <div class="timestamp">${botTimestamp}</div>
-    //       </div>`;
-    //     chatHistory.scrollTop = chatHistory.scrollHeight;
-    //     if (data.weather) {
-    //       const weather = data.weather;
-    //       const weatherText = `
-    //         <div class="weather-item">🌤️ <span>Condition:</span> ${weather.weather}</div>
-    //         <div class="weather-item">🌡️ <span>Temperature:</span> ${weather.temp}°C</div>
-    //         <div class="weather-item">💧 <span>Humidity:</span> ${weather.humidity}%</div>
-    //       `;
-    //       document.getElementById('weatherInfo').innerHTML = weatherText;
-    //     } else {
-    //       document.getElementById('weatherInfo').textContent = "No weather data available.";
-    //     }
-    //   } catch (error) {
-    //     console.error("API call failed:", error);
-    //     const botTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    //     chatHistory.innerHTML += `
-    //       <div class="chat-bubble bot">
-    //         <strong>Agribot:</strong> Sorry, I couldn't process your request. Please try again later.
-    //         <div class="timestamp">${botTimestamp}</div>
-    //       </div>`;
-    //     chatHistory.scrollTop = chatHistory.scrollHeight;
-    //     document.getElementById('weatherInfo').textContent = "No weather data available.";
-    //   } finally {
-    //     queryInput.disabled = false;
-    //     sendButton.disabled = false;
-    //     loadingIndicator.style.display = 'none';
-    //     const endTime = performance.now(); // End timing
-    // const elapsedTime = endTime - startTime;
-    // console.log(`Query took ${elapsedTime} milliseconds`);
-    //   }
-    // });
   </script>
 </body>
 </html>
